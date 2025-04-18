@@ -11,13 +11,27 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+
+def print_element_text_by_element(element):
+    """直接打印传入 element 的文本"""
+    try:
+        text = element.text.strip()
+        if not text:
+            text = element.get_attribute("value")
+        print(f"元素文本内容: {text}")
+        return text
+    except Exception as e:
+        print(f"获取元素文本失败: {e}")
+        return None
+
+
 class BasePage:
     def __init__(self, driver):
         self.driver = driver
 
     def wait_for_element(self, by, value, timeout=10):
         """等待元素可见"""
-        WebDriverWait(self.driver, timeout).until(
+        return WebDriverWait(self.driver, timeout).until(
             EC.visibility_of_element_located((by, value))
         )
 
@@ -52,3 +66,19 @@ class BasePage:
         """寻找元素集"""
         self.wait_for_element(by, value)
         return self.driver.find_elements(by, value)
+
+    def print_element_test(self, by, value):
+        """打印元素及其子元素文本"""
+        self.wait_for_element(by, value)
+        try:
+            element = self.driver.find_element(by, value)
+            text = element.text.strip()
+            if not text:
+                # 可能是输入框等
+                text = element.get_attribute("value")
+            print(f"text: {text}")
+            return text
+        except Exception as e:
+            print(f"get text failed: {e}")
+            return None
+
