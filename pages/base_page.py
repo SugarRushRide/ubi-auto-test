@@ -40,6 +40,7 @@ class BasePage:
         self.wait_for_element(by, value)
         element = self.driver.find_element(by, value)
         element.click()
+        # self.driver.execute_script("arguments[0].click();", element)
 
     def send_keys(self, by, value, text):
         """文本输入"""

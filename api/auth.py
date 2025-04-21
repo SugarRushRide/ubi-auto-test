@@ -7,8 +7,6 @@
 @Author  ：Byleth
 @Date    ：2025/4/18 11:54 
 """
-import certifi
-
 from config.settings import config
 import requests
 

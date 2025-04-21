@@ -12,6 +12,7 @@ import yaml
 from pathlib import Path
 
 CONFIG_PATH = Path(__file__).parent / "settings.yaml"
+BASE_URL = "https://ubi-3f3ab907.gaojidata.com"
 
 class Config:
     def __init__(self, config_file=CONFIG_PATH):

@@ -12,7 +12,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from config.settings import config
 from pages.overview_page import OverviewPage
-from utils.auth import get_login_url
+from api.auth import get_login_url
 
 @pytest.fixture(scope="session")
 def driver():

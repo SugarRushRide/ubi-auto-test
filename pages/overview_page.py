@@ -7,16 +7,26 @@
 @Author  ：Byleth
 @Date    ：2025/4/18 14:55 
 """
+from time import sleep
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pages.base_page import BasePage
 
 class OverviewPage(BasePage):
+    # 明细检验
     DETAIL_DATA = (By.CLASS_NAME, "ind-detail")
     MODAL = (By.CLASS_NAME, "detail-layout")
     MODAL_FORM = (By.CLASS_NAME, "ant-table-tbody")
     CLOSE_BUTTON = (By.CLASS_NAME, "ant-modal-close")
+    # 历史版本
+    VERSION_SELECT_BUTTON = (By.CLASS_NAME, "version-select-box")
+    # 最近历史版本
+    PREVIOUS_VERSION = (By.XPATH, "//div[.//span[contains(normalize-space(string(.)), '2025年03月')] and @class = 'ant-select-item-option-content']")
+    # 最近发布版本
+    LAST_PUBLISHED_VERSION = (By.XPATH, "//div[contains(text(), '202408')]")
+
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -64,3 +74,17 @@ class OverviewPage(BasePage):
 
     def scroll_into_view(self, element):
         self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+
+    # 点击版本切换按钮
+    def click_version_select(self):
+        self.click(*self.VERSION_SELECT_BUTTON)
+
+    # 最近版本
+    def change_version_previous(self):
+        self.click(*self.PREVIOUS_VERSION)
+        sleep(0.5)
+
+    # 最近发布版
+    def change_version_published(self):
+        self.click(*self.LAST_PUBLISHED_VERSION)
+        sleep(0.5)

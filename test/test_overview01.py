@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 """
 @Project ：ubi-auto-test 
-@File    ：test_overview_detail.py
+@File    ：test_overview01.py
 @Desc    ：总体定位页面明细查看测试
 @Author  ：Byleth
 @Date    ：2025/4/18 15:03 
@@ -12,7 +12,7 @@ import time
 from pages.base_page import print_element_text_by_element
 
 
-def test_all_details(univ_page):
+def test_overview01(univ_page):
     page = univ_page
     details = page.get_all_detail_elements()
     assert details, "Find anything."
