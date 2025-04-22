@@ -25,7 +25,7 @@ class OverviewPage(BasePage):
     # 最近历史版本
     PREVIOUS_VERSION = (By.XPATH, "//div[.//span[contains(normalize-space(string(.)), '2025年03月')] and @class = 'ant-select-item-option-content']")
     # 最近发布版本
-    LAST_PUBLISHED_VERSION = (By.XPATH, "//div[contains(text(), '202408')]")
+    LAST_PUBLISHED_VERSION = (By.XPATH, "//div[.//span[contains(normalize-space(string(.)), '2024年08月')] and @class = 'ant-select-item-option-content']")
 
 
     def __init__(self, driver):

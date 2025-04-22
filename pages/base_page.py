@@ -82,4 +82,3 @@ class BasePage:
         except Exception as e:
             print(f"get text failed: {e}")
             return None
-
