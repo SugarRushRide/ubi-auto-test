@@ -26,6 +26,12 @@ def print_element_text_by_element(element):
 
 
 class BasePage:
+    # 明细检验
+    DETAIL_DATA = (By.CLASS_NAME, "ind-detail")
+    MODAL = (By.CLASS_NAME, "detail-layout")
+    MODAL_FORM = (By.CLASS_NAME, "ant-table-tbody")
+    CLOSE_BUTTON = (By.CLASS_NAME, "ant-modal-close")
+
     def __init__(self, driver):
         self.driver = driver
 
@@ -82,3 +88,42 @@ class BasePage:
         except Exception as e:
             print(f"get text failed: {e}")
             return None
+
+    def get_all_detail_elements(self):
+        """获取所有有明细的元素"""
+        return self.find_elements(*self.DETAIL_DATA)
+
+    def click_detail(self, element):
+        # self.scroll_into_view(element)
+        element.click()
+
+    def wait_for_modal(self):
+        try:
+            return self.wait_for_element(*self.MODAL, timeout=15)
+        except Exception as e:
+            raise Exception("Modal did not appear.") from e
+        # try:
+        #     modal = WebDriverWait(self.driver, 10).until(
+        #         EC.visibility_of_element_located(self.MODAL)
+        #     )
+        #     return modal
+        # except Exception as e:
+        #     raise Exception("Modal did not appear.") from e
+
+    def wait_for_modal_form(self):
+        try:
+            return self.wait_for_element(*self.MODAL_FORM, timeout=15)
+        except Exception as e:
+            raise Exception("Modal did not appear.") from e
+
+    def is_modal_form_not_empty(self):
+        try:
+            WebDriverWait(self.driver, 10).until(
+                lambda d: d.find_element(*self.MODAL_FORM).text.strip() != ""
+            )
+            return True
+        except:
+            return False
+
+    def close_modal(self):
+        self.click(*self.CLOSE_BUTTON)
