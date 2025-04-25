@@ -9,8 +9,11 @@
 """
 import time
 
+from pages.overview_page import OverviewPage
+
+
 def test_overview02(univ_page):
-    page = univ_page
+    page = OverviewPage(univ_page)
     page.click_version_select()
     page.change_version_previous()
     details = page.get_all_detail_elements()

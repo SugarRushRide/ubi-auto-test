@@ -7,6 +7,8 @@
 @Author  ：Byleth
 @Date    ：2025/4/18 14:22 
 """
+from abc import abstractmethod
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -35,7 +37,29 @@ class BasePage:
     def __init__(self, driver):
         self.driver = driver
 
-    def wait_for_element(self, by, value, timeout=10):
+    def wait_for_page_ready(self, timeout=15):
+        try:
+            # 调用子类实现的定位器
+            locator = self._get_ready_locator()
+            print(f"等待页面就绪，使用的定位器：{locator}")  # 调试输出
+            # 验证定位器类型
+            if not isinstance(locator, tuple) or len(locator) != 2:
+                raise ValueError(f"无效的定位器格式: {locator}")
+            return self.wait_for_element(*locator, timeout)
+        except Exception as e:
+            # 抛出包含具体页面类名的异常
+            class_name = self.__class__.__name__
+            raise TimeoutError(
+                f"Page [{class_name}] not ready"
+                f"Element {locator} not found within {timeout} seconds"
+            ) from e
+
+    @abstractmethod
+    def _get_ready_locator(self):
+        """子类必须实现的抽象方法：返回页面就绪的定位器"""
+        pass
+
+    def wait_for_element(self, by, value, timeout=15):
         """等待元素可见"""
         return WebDriverWait(self.driver, timeout).until(
             EC.visibility_of_element_located((by, value))
@@ -68,6 +92,11 @@ class BasePage:
             return True
         except:
             return False
+
+    def find_element(self, by, value):
+        """寻找指定元素"""
+        self.wait_for_element(by, value)
+        return self.driver.find_element(by, value)
 
     def find_elements(self, by, value):
         """寻找元素集"""
@@ -127,3 +156,20 @@ class BasePage:
 
     def close_modal(self):
         self.click(*self.CLOSE_BUTTON)
+
+    def wait_for_change(self, locator, get_value_fn=None, timeout=10):
+        """
+        等待某个元素的值发生变化（text 或任意属性）
+        :param locator: 元素定位器（By, value）
+        :param get_value_fn: 可选，自定义提取值的方法（默认取 element.text）
+        :param timeout: 最大等待秒数
+        """
+        if get_value_fn is None:
+            get_value_fn = lambda e : e.text
+
+        element = self.find_element(*locator)
+        old_value = get_value_fn(element)
+
+        WebDriverWait(self.driver, timeout).until(
+            lambda d: get_value_fn(d.find_element(*locator)) != old_value
+        )

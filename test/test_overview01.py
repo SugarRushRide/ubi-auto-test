@@ -10,10 +10,11 @@
 import time
 
 from pages.base_page import print_element_text_by_element
+from pages.overview_page import OverviewPage
 
 
 def test_overview01(univ_page):
-    page = univ_page
+    page = OverviewPage(univ_page)
     details = page.get_all_detail_elements()
     assert details, "Find anything."
 

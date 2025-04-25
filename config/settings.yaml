@@ -2,7 +2,7 @@ credentials:
   login_name: "chengjun.jiang"
   password: "shanghai0303"
   login_type_id: "2"
-  univ_code: "RC00001"
+  univ_code: "RC00004"
 
 browser:
   headless: False

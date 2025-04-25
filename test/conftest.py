@@ -11,6 +11,7 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from config.settings import config
+from pages.base_page import BasePage
 from pages.overview_page import OverviewPage
 from api.auth import get_login_url
 
@@ -45,6 +46,4 @@ def univ_url():
 @pytest.fixture(scope="session")
 def univ_page(driver, univ_url):
     driver.get(univ_url)
-    page = OverviewPage(driver)
-    page.wait_for_page_ready()
-    return page
+    return driver

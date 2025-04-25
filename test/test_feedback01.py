@@ -2,18 +2,20 @@
 # -*- coding: UTF-8 -*-
 """
 @Project ：ubi-auto-test 
-@File    ：test_overview03.py
-@Desc    ：最近历史版本明细查看
+@File    ：test_feedback01.py
+@Desc    ：明细查看
 @Author  ：Byleth
-@Date    ：2025/4/22 09:54 
+@Date    ：2025/4/25 17:43 
 """
 import time
+
 from pages.base_page import print_element_text_by_element
-from pages.overview_page import OverviewPage
+from pages.feedback_page import FeedbackPage
 
 
-def test_overview03(univ_page):
-    page = OverviewPage(univ_page)
+def test_feedback01(univ_page):
+    page = FeedbackPage(univ_page)
+
     details = page.get_all_detail_elements()
     assert details, "Find anything."
 
@@ -26,5 +28,4 @@ def test_overview03(univ_page):
         assert page.is_modal_form_not_empty(), f"{idx+1} is empty"
         print_element_text_by_element(modal_form)
         page.close_modal()
-        print(f"Success, overview page, detail of previous version exist")
         time.sleep(0.5)
