@@ -15,6 +15,8 @@ from pages.feedback_page import FeedbackPage
 
 def test_feedback01(univ_page):
     page = FeedbackPage(univ_page)
+    page.jump_to_feedback()
+    page.wait_for_page_ready()
 
     details = page.get_all_detail_elements()
     assert details, "Find anything."
@@ -23,9 +25,9 @@ def test_feedback01(univ_page):
         print(f"clicking {idx+1} element now")
         page.click_detail(detail)
         modal = page.wait_for_modal()
-        modal_form = page.wait_for_modal_form()
+        # modal_form = page.wait_for_modal_form()
         assert modal.is_displayed(), f"{idx+1} no found"
         assert page.is_modal_form_not_empty(), f"{idx+1} is empty"
-        print_element_text_by_element(modal_form)
+        # print_element_text_by_element(modal_form)
         page.close_modal()
         time.sleep(0.5)

@@ -30,5 +30,8 @@ class FeedbackPage(BasePage):
     def _get_ready_locator(self):
         return self.CHECK_ELEMENT
 
+    def jump_to_feedback(self):
+        self.click(*self.FEEDBACK)
 
+    # 获取
 
